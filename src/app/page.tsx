@@ -3,6 +3,7 @@ import { cookies } from "next/headers"
 import { redirect, RedirectType } from "next/navigation"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import CreateAccountForm from "@/components/auth/create-account-form"
+import LoginAccountForm from "@/components/auth/login-account-form"
 
 export default async function Home() {
   let loggedIn = false
@@ -45,7 +46,7 @@ export default async function Home() {
         </TabsContent>
 
         <TabsContent value="login">
-          
+          <LoginAccountForm />
         </TabsContent>
       </Tabs>
     </div>

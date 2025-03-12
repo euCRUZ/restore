@@ -33,7 +33,7 @@ const formSchema = z.object({
     .max(16),
 })
 
-const CreateAccountForm = () => {
+const LoginAccountForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -48,7 +48,7 @@ const CreateAccountForm = () => {
 
   return (
     <div className="flex flex-col justify-center items-center space-y-2">
-      <span className="text-lg my-4">You&apos;ll love it.</span>
+      <span className="text-lg my-4">It&apos;s good to see you again.</span>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -91,4 +91,4 @@ const CreateAccountForm = () => {
   )
 }
 
-export default CreateAccountForm
+export default LoginAccountForm
