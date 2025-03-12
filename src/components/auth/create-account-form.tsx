@@ -14,6 +14,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import { useRouter } from "next/navigation"
 
 const formSchema = z.object({
   email: z
@@ -34,6 +36,7 @@ const formSchema = z.object({
 })
 
 const CreateAccountForm = () => {
+  const router = useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,7 +46,29 @@ const CreateAccountForm = () => {
   })
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values)
+    try {
+      const supabase = createClientComponentClient()
+      const { email, password } = values
+
+      const {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        error,
+        data: { user },
+      } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${location.origin}/auth/callback`,
+        },
+      })
+
+      if (user) {
+        form.reset()
+        router.push("/")
+      }
+    } catch (error) {
+      console.log("CreateAccountForm", error)
+    }
   }
 
   return (
